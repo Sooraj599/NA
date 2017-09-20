@@ -1,0 +1,252 @@
+10+ “ifconfig” Command Usage Examples in Linux
+
+This tutorial explains Linux “ifconfig” command, options and its usage with examples.
+
+ifconfig – configure a network interface.
+
+DESCRIPTION
+
+Ifconfig is used to configure the kernel-resident network interfaces. It is used at boot time to set up interfaces as necessary. After that, it is usually only needed when debugging or when system tuning is needed. If no arguments are given, ifconfig displays the status of the currently active interfaces.
+
+If a single interface argument is given, it displays the status of the given interface only; if a single -a argument is given, it displays the status of all interfaces, even those that are down. Otherwise, it configures an interface.
+
+SYNOPSIS
+
+ifconfig [-L] [-m] interface [create] [address_family] [address[/prefixlength] [dest_address]] [parameters] ifconfig interface destroy
+ifconfig -a [-L] [-d] [-m] [-u] [address_family] ifconfig -l [-d] [-u] [address_family] ifconfig [-L] [-d] [-m] [-u] [-C]
+
+OPTIONS :
+
+-a
+Optionally, the -a flag may be used instead of an interface name. This flag instructs ifconfig to display information about all interfaces in the system.
+-d
+The -d flag displays interfaces that are down. You can use the flag only with the -a or -l flag.
+-l
+This flag may be used to list all available interfaces on the system, with no other additional information. Use of this flag is mutually exclusive with all other flags and commands, except for -d and -u.
+-u
+The -u flag displays interfaces that are up. You can use the flag only with the -a or -l flag.
+addressfamily	This flag specifies protocols such as tcp, udp, tcp6, udp6, icmp, and icmp6.
+
+Parameters
+
+alias
+Establishes an additional network address for the interface. When changing network numbers, this parameter is useful for accepting packets addressed to the old interface.
+
+allcast
+Sets the Token-Ring interface to broadcast to all rings on the network.
+
+-allcast
+Confines the Token-Ring interface to broadcast only to the local ring.
+
+arp
+Enables the ifconfig command to use the Address Resolution Protocol in mapping between network-level addresses and link-level addresses. The arp value is the default.
+
+-arp
+Disables the use of the Address Resolution Protocol.
+
+broadcast Address
+(inet only) Specifies the address to use to broadcast to the network. The default broadcast address has a host part of all 1s.
+
+checksum_offload
+Enables the flag to indicate that transmit TCP checksum should be offloaded to the adapter. The command will also reset the per-interface counter that determines whether TCP should dynamically enable or disable offloading of checksum computation.
+
+-checksum_offload
+Disables transmit TCP checksum offloading.
+
+delete
+Removes the specified network address. This is used when an alias is incorrectly specified or when it is no longer needed. Incorrectly setting an ns address has the side effect of specifying the host portion of the network address. Removing all ns addresses allows you to re-specify the host portion.
+
+detach
+Removes an interface from the network interface list. If the last interface is detached, the network interface driver code is unloaded. In order for the interface route of an attached interface to be changed, that interface must be detached and added again with ifconfig.
+
+down
+Marks an interface as inactive (down), which keeps the system from trying to transmit messages through that interface. If possible, the ifconfig command also resets the interface to disable reception of messages. Routes that use the interface, however, are not automatically disabled.
+
+group ID
+Adds a group ID to the group ID list for the interface. This list is used in determining the route to use when forwarding packets that arrived on the interface.
+
+-group ID
+Removes a group ID from the group ID list for the interface. This list is used in determining the route to use when forwarding packets that arrived on the interface.
+
+hwloop
+Enables hardware loopback. The hardware loopback specifies that locally addressed packets handled by an interface should be sent out using the associated adapter.
+
+-hwloop
+Disables hardware loop-back. The hardware loop-back specifies that locally addressed packets handled by an interface should be sent out using the associated adapter.
+
+ipdst
+Specifies an Internet host willing to receive IP packets encapsulating ns packets bound for a remote network. An apparent point-to-point link is constructed, and the specified address is taken as the ns address and network of the destination.
+
+metric Number
+Sets the routing metric of the interface to the value specified by the Number variable. The default is 0 (zero). The routing metric is used by the routing protocol (the routed daemon). Higher metrics have the effect of making a route less favorable. Metrics are counted as addition hops to the destination network or host.
+
+monitor
+Enables the underlying adapter to notify the interface layer of link status changes. The adapter must support link status callback notification. If multipath routing is used, alternate routes are selected when a link goes down.
+
+-monitor
+Disables adapter link status monitoring.
+
+mtu Value
+Sets the maximum IP packet size for this system. The Value variable can be any number from 60 through 65535, but is media dependent. See Automatic configuration of network interfaces in Networks and communication management for maximum transmission unit (MTU) values by interface.
+
+netmask Mask
+Specifies how much of the address to reserve for subdividing networks into subnetworks. This parameter can be used only with an address family of inet.
+
+up
+Marks an interface as active (up). This parameter is used automatically when setting the first address for an interface. It can also be used to enable an interface after an ifconfig down command.
+
+EXAMPLES
+
+1. View All Network Setting
+
+The “ifconfig” command with no arguments will display all the active interfaces details.
+
+# ifconfig
+ 
+eth0      Link encap:Ethernet  HWaddr 00:0B:CD:1C:18:5A
+          inet addr:172.16.25.126  Bcast:172.16.25.63  Mask:255.255.255.224
+          inet6 addr: fe80::20b:cdff:fe1c:185a/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:2341604 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2217673 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:293460932 (279.8 MiB)  TX bytes:1042006549 (993.7 MiB)
+          Interrupt:185 Memory:f7fe0000-f7ff0000
+ 
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:5019066 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:5019066 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:2174522634 (2.0 GiB)  TX bytes:2174522634 (2.0 GiB)
+ 
+tun0      Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+          inet addr:10.1.1.1  P-t-P:10.1.1.2  Mask:255.255.255.255
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:100
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+2. Display Information of All Network Interfaces using -a option
+
+# ifconfig -a
+ 
+eth0      Link encap:Ethernet  HWaddr 00:0B:CD:1C:18:5A
+          inet addr:172.16.25.126  Bcast:172.16.25.63  Mask:255.255.255.224
+          inet6 addr: fe80::20b:cdff:fe1c:185a/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:2344927 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2220777 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:293839516 (280.2 MiB)  TX bytes:1043722206 (995.3 MiB)
+          Interrupt:185 Memory:f7fe0000-f7ff0000
+ 
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:5022927 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:5022927 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:2175739488 (2.0 GiB)  TX bytes:2175739488 (2.0 GiB)
+ 
+sit0      Link encap:IPv6-in-IPv4
+          NOARP  MTU:1480  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+ 
+tun0      Link encap:UNSPEC  HWaddr 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00
+          inet addr:10.1.1.1  P-t-P:10.1.1.2  Mask:255.255.255.255
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:100
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+3. View Network Settings of Specific Interface
+
+For e.g. of eth0 interface
+
+# ifconfig eth0
+ 
+eth0      Link encap:Ethernet  HWaddr 00:0B:CD:1C:18:5A
+          inet addr:172.16.25.126  Bcast:172.16.25.63  Mask:255.255.255.224
+          inet6 addr: fe80::20b:cdff:fe1c:185a/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:2345583 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2221421 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:293912265 (280.2 MiB)  TX bytes:1044100408 (995.7 MiB)
+          Interrupt:185 Memory:f7fe0000-f7ff0000
+
+4. How to Enable an Network Interface
+
+The “up” or “ifup” flag with interface name (eth0) activates an network interface, if it is not in active state and allowing to send and receive information.
+
+OR
+
+5. How to Disable an Network Interface
+
+The “down” or “ifdown” flag with interface name (eth0) deactivates the specified network interface.
+
+OR
+
+6. How to Assign a IP Address to Network Interface
+
+To assign an IP address to an specific interface, use the following command
+
+# ifconfig eth0 172.16.25.125
+
+7. How to Assign a Netmask to Network Interface
+
+Using the “ifconfig” command with “netmask” argument and interface name as (eth0) allows you to define an netmask to an given interface.
+
+# ifconfig eth0 netmask 255.255.255.224
+
+8. How to Assign a Broadcast to Network Interface
+
+Using the “broadcast” argument with an interface name will set the broadcast address for the given interface.
+
+# ifconfig eth0 broadcast 172.16.25.63
+
+9. How to Assign a IP, Netmask and Broadcast to Network Interface
+
+To assign an IP address, Netmask address and Broadcast address all at once using “ifconfig” command with all arguments as given below.
+
+# ifconfig eth0 172.16.25.125 netmask 255.255.255.224 broadcast 172.16.25.63
+
+10. How to Change MTU for an Network Interface
+
+The “mtu” argument set the maximum transmission unit to an interface.
+
+11. How to Add New Alias to Network Interface
+
+The ifconfig utility allows you to configure additional network interfaces using alias feature. To add alias network interface of eth0, use the following command. Please note that alias network address in same sub-net mask.
+
+# ifconfig eth0:0 172.16.25.127
+
+Next, verify the newly created alias network interface address, by using “ifconfig eth0:0” command.
+
+# ifconfig eth0:0
+ 
+eth0:0    Link encap:Ethernet  HWaddr 00:01:6C:99:14:68
+          inet addr:172.16.25.123  Bcast:172.16.25.63  Mask:255.255.255.240
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          Interrupt:17
+
+12. How to Remove Alias to Network Interface
+
+If you no longer required an alias network interface or you incorrectly configured it, you can remove it by using the following command.
+
+13. How to Change the MAC address of Network Interface
+
+To change the MAC (Media Access Control) address of an eth0 network interface, use the following command with argument “hw ether“. For example, see below.
+
+# ifconfig eth0 hw ether AA:BB:CC:DD:EE:FF
+
+Sanfoundry Global Education & Learning Series – 1000 Linux Tutorials.

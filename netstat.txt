@@ -1,0 +1,165 @@
+
+sanfoundry.com
+10 "netstat" Command Usage Examples in Linux
+by linuxcmd2
+12-16 minutes
+
+This tutorial explains Linux “netstat” command, options and its usage with examples.
+
+netstat – Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+
+DESCRIPTION
+
+netstat (network statistics) is a command line tool for monitoring network connections both incoming and outgoing as well as viewing routing tables, interface statistics etc. netstat is available on all Unix-like Operating Systems and also available on Windows OS as well. It is very useful in terms of network troubleshooting and performance measurement. netstat is one of the most basic network service debugging tools, telling you what ports are open and whether any programs are listening on ports.
+
+SYNOPSIS
+
+netstat [-a] [-n] [-v]
+
+netstat [-g | -m | -p | -s | -f address_family ] [-n] [-P protocol]
+
+netstat [ -i ] [ -I interface ] [ interval ]
+
+netstat -r [-a] [-n] [-v ]
+
+netstat -M [-n] [-s ]
+
+netstat -D [ -I interface ]
+
+OPTIONS :
+
+-a
+Show the state of all sockets and all routing table entries; normally, sockets used by server processes are not shown and only interface, host, network, and default routes are shown.
+-n
+Show network addresses as numbers. netstat normally displays addresses as symbols. This option may be used with any of the display formats.
+-v
+Verbose. Show additional information for the sockets and the routing table.
+-g
+Show the multicast group memberships for all interfaces.
+-m
+Show the STREAMS statistics.
+-p
+Show the address resolution (ARP) tables.
+-s
+Show per-protocol statistics. When used with the -M option, show multicast routing statistics instead.
+-i
+Show the state of the interfaces that are used for TCP/IP traffic.
+-r
+Show the routing tables.
+-M
+Show the multicast routing tables. When used with the -s option, show multicast routing statistics instead.
+-d
+Show the state of all interfaces that are under Dynamic Host Configuration Protocol (DHCP) control.
+-D
+Show the status of DHCP configured interfaces.
+-f address_family
+imit statistics or address control block reports to those of the specified address_family, which can be one of:
+inet For the AF_INET address family
+unix For the AF_Unix address family
+
+-P protocol
+Limit display of statistics or state of all sockets to those applicable to protocol.
+– I interface
+Show the state of a particular interface. interface can be any valid interface such as ie0 or
+le0.
+
+EXAMPLES
+
+1. Listing Various Listening Ports
+
+Listing all the LISTENING Ports of TCP and UDP connections
+
+# netstat -a | more
+
+Listing TCP Ports connections
+
+# netstat -at
+ 
+
+Listing UDP Ports connections
+
+# netstat -au
+
+2. Listing various Listening connections
+
+Listing all LISTENING Connections
+
+# netstat -l
+ 
+Listing all TCP Listening Ports
+
+Listing all active listening TCP ports by using option netstat -lt.
+
+# netstat -lt
+ 
+
+Listing all UDP Listening Ports
+
+Listing all active listening UDP ports by using option netstat -lu.
+
+# netstat -lu
+ 
+
+3. Showing Statistics by Different Protocols
+
+Showing statistics of all protocols
+
+# netstat -s
+ 
+Showing Statistics by TCP Protocol
+
+# netstat -st
+Showing Statistics by UDP Protocol
+
+# netstat -su
+ 
+Udp:
+    1774823 packets received
+    901848 packets to unknown port received.
+    0 packet receive errors
+    2968722 packets sent
+
+4. Displaying Service name with PID
+
+# netstat -tp
+ 
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name
+tcp        0      0 192.168.0.2:ssh             192.168.0.1:egs             ESTABLISHED 2179/sshd
+tcp        1      0 192.168.0.2:59292           www.gov.com:http            CLOSE_WAIT  1939/clock-applet
+
+5. Display Kernel IP routing table
+
+# netstat -r
+ 
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+192.168.0.0     *               255.255.255.0   U         0 0          0 eth0
+link-local      *               255.255.0.0     U         0 0          0 eth0
+default         192.168.0.1     0.0.0.0         UG        0 0          0 eth0
+
+6. Showing network interface packet transactions
+
+# netstat -i
+ 
+Kernel Interface table
+Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+eth0       1500   0     4459      0      0      0     4057      0      0      0 BMRU
+lo        16436   0        8      0      0      0        8      0      0      0 LRU
+
+7. Showing Kernel interface table, similar to ifconfig command.
+
+# netstat -ie
+ 
+
+8. Print Netstat Information Continuously
+
+# netstat -c
+
+9. Finding Listening Programs
+
+# netstat -ap | grep http
+10. Displaying RAW Network Statistics
+
+# netstat --statistics --raw
+ 

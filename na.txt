@@ -1,0 +1,14 @@
+STP is a layer 2 mechanism to enusre the packets are not looping in network
+
+1.elect the root bridge
+2. Select the best path to root bridge
+3. Block unnecessary probs
+
+to change root 
+spanning-tree vlan 1 root 
+
+
+show cdp
+enable
+config
+
